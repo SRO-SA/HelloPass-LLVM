@@ -36,22 +36,22 @@ opt -load-pass-plugin ../Pass/build/libLLVMValueNumberingPass.so  -passes=value-
 opt -load-pass-plugin ../Pass/build/libLLVMValueNumberingPass.so  -passes=value-numbering test.ll -debug-pass-manager
 ```
 ## Code Explanation 
-- The implemented Pass extends from ``FunctionPass`` class and overrides ``runOnFunction(Function &F)`` function.
-- ``runOnFunction(Function &F)`` function gets called for each function in the test code. Name of the function being analyzed is accessible using the following code snippet. 
+- The implemented Pass extends from ``FunctionPass`` class and overrides ``run(Function &F, FunctionAnalysisManager &)`` function.
+- ``run(Function &F, FunctionAnalysisManager &)`` function gets called for each function in the test code. Name of the function being analyzed is accessible using the following code snippet. 
 ```c++
-bool runOnFunction(Function &F) override {
+PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
 	F.getName();
 }
 ```
 - To print out to the screen, you need to redirect strings to ``errs()``, as in:
 ```c++
-bool runOnFunction(Function &F) override {
+PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
 	errs() << "function name: " << F.getName() << "\n";
 }
 ```
 - We can iterate over basic blocks of the given function as:
 ```c++
-bool runOnFunction(Function &F) override {
+PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
 	for (auto& basic_block : F)
 	{
 		...
@@ -60,7 +60,7 @@ bool runOnFunction(Function &F) override {
 ```
 - Next, we can iterate over the instructions in a basic block (BB). **Note:** instructions are in LLVM IR.
 ```c++
-bool runOnFunction(Function &F) override {
+PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
     for (auto& basic_block : F)
     {
         for (auto& inst : basic_block)
@@ -110,10 +110,10 @@ if (inst.isBinaryOp())
     // See Other classes Instruction::Sub, Instruction::UDiv, Instruction::SDiv
 }
 ```
-- A sample implementation of ``runOnFunction(Function &F)``:  
+- A sample implementation of ``run(Function &F, FunctionAnalysisManager &)``:  
 ```c++
 string func_name = "test";
-bool runOnFunction(Function &F) override {
+PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
 
     errs() << "ValueNumbering: ";
     errs() << F.getName() << "\n";
