@@ -118,7 +118,7 @@ PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
     errs() << "ValueNumbering: ";
     errs() << F.getName() << "\n";
     if (F.getName() != func_name) 
-        return false;
+        return PreservedAnalyses::all();
 	
     for (auto& basic_block : F)
     {
@@ -132,6 +132,6 @@ PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
             }
         }
     }
-    return false;
+    return PreservedAnalyses::all();
 }
 ```
