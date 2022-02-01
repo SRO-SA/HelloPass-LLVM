@@ -39,8 +39,8 @@ void visitor(Function &F){
                     if(inst.getOpcode() == Instruction::Add){
                         errs() << "This is Addition"<<"\n";
                     }
-                    if(inst.getOpcode() == Instruction::Add){
-                        errs() << "This is Addition"<<"\n";
+                    if(inst.getOpcode() == Instruction::Load){
+                        errs() << "This is Load"<<"\n";
                     }
                     if(inst.getOpcode() == Instruction::Mul){
                         errs() << "This is Multiplication"<<"\n";

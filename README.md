@@ -25,7 +25,7 @@ make -j4
 ```
 5. Move to **test**/ directory and generate ***test.ll*** file for test.c using following command. 
 ```c++
-clang -O3 -S -emit-llvm test.c -o test.ll
+clang -S -fno-discard-value-names -emit-llvm test.c -o test.ll
 ```
 6. After generating test.ll, run the following command to test the LLVM Pass. 
 ```bash
